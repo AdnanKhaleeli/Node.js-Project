@@ -1,0 +1,38 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body> 
+
+<%- include("./partials/nav.ejs") %> 
+
+<div class="details content"> 
+    <h2> <%= blog.title %> </h2>
+    <div class="content"> 
+        <p> <%= blog.body %> </p>
+    </div>
+    <a data-doc="<%= blog._id %>" class="delete"> Delete </a>
+</div>
+
+<%- include('./partials/footer.ejs') %>
+
+    <script> 
+        const trashcan = document.querySelector('a.delete');
+
+
+
+        trashcan.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const endpoint = `/blogs/${trashcan.dataset.doc}`;
+            const response = await fetch(endpoint, {
+                method: 'DELETE', 
+            });
+            //Remember JSON is literally a Javascript object
+            const data = await response.json()
+            window.location.href = data.redirect;
+
+        });
+
+    </script>
+
+</body>
+</html> 
